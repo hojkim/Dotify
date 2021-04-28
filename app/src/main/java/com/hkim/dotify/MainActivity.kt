@@ -8,20 +8,23 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import org.w3c.dom.Text
 import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
 
     private var playCount = Random.nextInt(0, 100000)
-    private val tvNumPlays = findViewById<TextView>(R.id.tvNumPlays)
-    private val tvUsername = findViewById<TextView>(R.id.tvUsername)
-    private val btnChangeUser = findViewById<Button>(R.id.btnChangeUser)
-//    private val etUserName = findViewById<EditText>(R.id.etUsername)
+    private lateinit var tvNumPlays:TextView
+    private val tvUsername by lazy {findViewById<TextView>(R.id.tvUsername)}
+    private val btnChangeUser by lazy {findViewById<Button>(R.id.btnChangeUser)}
+    private val etUserName by lazy {findViewById<EditText>(R.id.etUsername)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        tvNumPlays = findViewById(R.id.tvNumPlays)
 
         tvNumPlays.text = "$playCount plays"
     }
@@ -41,10 +44,14 @@ class MainActivity : AppCompatActivity() {
 
     fun changeUser (view: View) {
         if (btnChangeUser.text == "Change User") {
-            tvUsername.text = ""
+            tvUsername.visibility = View.GONE
+            etUserName.visibility = View.VISIBLE
             btnChangeUser.text = "Apply"
         } else {
             btnChangeUser.text = "Change User"
+            tvUsername.text = etUserName.text
+            etUserName.visibility = View.GONE
+            tvUsername.visibility = View.VISIBLE
         }
     }
 
